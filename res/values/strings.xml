@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">doyouagree</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="enterCode">Enter Code</string>
+    <string name="buttonTxt">Ok</string>
+    <string name="title_activity_poll_results_view">PollResultsView</string>
+    <string name="app_id">583993444976386</string>
+    <string name="submit">Submit</string>
+    <string name="back">Back</string>
+    <string name="fb_share">Facebook Share Button</string>
+    <string name="slider_value">I Agree : 50%</string>
+
+</resources>
