@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.facebook.*;
 import com.facebook.model.*;
+import uk.co.doyouagree.R;
+
 
 public class EnterCode extends Activity {
 	public final static String ENTEREDCODE = "com.example.EnterCode.enteredCode";
@@ -21,6 +23,8 @@ public class EnterCode extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_code);
+        
+       
         
         // start Facebook Login
         Session.openActiveSession(this, true, new Session.StatusCallback() {
@@ -50,6 +54,7 @@ public class EnterCode extends Activity {
         
     }
 
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
