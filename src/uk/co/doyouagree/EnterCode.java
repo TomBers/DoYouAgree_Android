@@ -14,8 +14,8 @@ import uk.co.doyouagree.R;
 
 
 public class EnterCode extends Activity {
-	public final static String ENTEREDCODE = "com.example.EnterCode.enteredCode";
-	public final static String USERID = "com.example.EnterCode.userID";
+	public final static String ENTEREDCODE = "uk.co.EnterCode.enteredCode";
+	public final static String USERID = "uk.co.EnterCode.userID";
 	private String usrID = "";
 	private EditText code;
 	
@@ -69,7 +69,7 @@ public class EnterCode extends Activity {
     }
     
     public void enterCode(View view) {
-       // label
+     
     	
     	code = (EditText) findViewById(R.id.editText1);
     	

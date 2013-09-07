@@ -26,6 +26,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -45,6 +47,7 @@ public class PollResultsView extends Activity {
 	private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
 	private boolean pendingPublishReauthorization = false;
 	private ImageButton shareButton;
+	private Button agreeButton;
 	
 	
 	@Override
@@ -59,6 +62,7 @@ public class PollResultsView extends Activity {
 		
 		
 		
+		
 		Intent intent = getIntent();
 		code = intent.getStringExtra(EnterCode.ENTEREDCODE);
 		if(code.equals("")) code ="NotACode";
@@ -67,25 +71,35 @@ public class PollResultsView extends Activity {
 		userID = intent.getStringExtra(EnterCode.USERID);
 		
 		
-		
-		//String url = "http://pic-card.me/pm/"+code+".html";
+		final Activity activity = this;
+
 		String url = "http://www.doyouagree.co.uk/"+code+".html";
-			
-		wv.loadUrl(url);
+		
+        wv.setWebViewClient(new WebViewClient() {
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        wv.loadUrl(url);
+      
+		
 			
 		shareButton = (ImageButton) findViewById(R.id.shareButton);
 		percent = (TextView) findViewById(R.id.textView3);
+		agreeButton = (Button) findViewById(R.id.button1);
 		
 		sb = (SeekBar) findViewById(R.id.seekBar1);
 		sb.setMax(100);
 		sb.setProgress(50);
-		
+		sb.setEnabled(true);
 		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
 		    @Override
 		    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		        
 		        percent.setText("I Agree : "+String.valueOf(progress)+"%");
+		        agreeButton.setEnabled(true);
 		    }
 
 		    @Override
@@ -107,8 +121,11 @@ public class PollResultsView extends Activity {
 		
 	}
 	
+	
 	public void goBack(View view) {
 		 
+		wv.loadUrl("about:blank");
+		agreeButton.setEnabled(false);
 		shareButton.setVisibility(View.INVISIBLE);
 		Intent returnIntent = new Intent(this, EnterCode.class);
     	startActivity(returnIntent);
@@ -116,21 +133,27 @@ public class PollResultsView extends Activity {
 	 }
 	
 	public void share(View view) {
+		shareButton.setEnabled(false);
 		publishStory();
 		 
 	 }
 	
 	public void sendResult(View view) {
 		int val = sb.getProgress();
-		
+		sb.setEnabled(false);
+		agreeButton.setEnabled(false);
 		float sendVal = (float)val / 100;
 		
 		String resultUrl = "http://www.doyouagree.co.uk/storeResponse.php?code="+code+"&value="+sendVal+"&user="+userID;
 			
 	
 		wv.loadUrl(resultUrl);
-		shareButton.setVisibility(View.VISIBLE);
 		
+		 Log.i("FB Log","Fb ID : " + userID);
+		 if(userID != null && !userID.isEmpty()){
+		shareButton.setVisibility(View.VISIBLE);
+		shareButton.setEnabled(true);
+		 }
 	}
 	
 
@@ -160,7 +183,7 @@ public class PollResultsView extends Activity {
 
 	private void publishStory() {
 	    Session session = Session.getActiveSession();
-
+		
 	    if (session != null){
 
 	        // Check for publish permissions    
@@ -173,7 +196,7 @@ public class PollResultsView extends Activity {
 	            return;
 	        }
 
-	        String lnk = "http://www.doyouagree.co.uk/storeResponse.php?code="+code;
+	        String lnk = "http://www.doyouagree.co.uk/webGraph.php?code="+code;
 	        Bundle postParams = new Bundle();
 	        postParams.putString("name", "Do You Agree");
 	        postParams.putString("caption", "Do you agree with ...");
