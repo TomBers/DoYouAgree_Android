@@ -4,6 +4,7 @@ package uk.co.doyouagree;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -67,6 +68,17 @@ public class EnterCode extends Activity {
         getMenuInflater().inflate(R.menu.activity_enter_code, menu);
         return true;
     }
+    
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK ) {
+	    	Intent intent = new Intent(Intent.ACTION_MAIN);
+	    	intent.addCategory(Intent.CATEGORY_HOME);
+	    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    	startActivity(intent);
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
     
     public void enterCode(View view) {
      
